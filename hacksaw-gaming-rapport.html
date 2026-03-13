@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hacksaw Gaming – Aksjeanalyse</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f1923;
+    --ink-mid: #2e3d4f;
+    --ink-light: #5a6a7a;
+    --ink-muted: #8a9aaa;
+    --rule: #c8d0da;
+    --rule-light: #e4e8ed;
+    --accent: #1a3a5c;
+    --accent-bright: #1e5ba8;
+    --accent-gold: #b8860b;
+    --accent-gold-light: #f9f3e3;
+    --green: #0d5c2f;
+    --green-bg: #eaf4ee;
+    --red: #8b1a1a;
+    --red-bg: #faeaea;
+    --bg: #fafbfc;
+    --bg-white: #ffffff;
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-sans: 'Source Sans 3', system-ui, sans-serif;
+    --font-mono: 'Source Code Pro', monospace;
+  }
+
+  html { font-size: 15px; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.65;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ─── HEADER ─── */
+  .report-header {
+    border-top: 4px solid var(--accent);
+    border-bottom: 1px solid var(--rule);
+    padding: 36px 0 28px;
+    margin-bottom: 0;
+  }
+  .bank-line {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-bright);
+    margin-bottom: 20px;
+  }
+  .company-name {
+    font-family: var(--font-serif);
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+  }
+  .company-sub {
+    font-size: 13px;
+    color: var(--ink-light);
+    margin-top: 4px;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+  }
+  .rating-strip {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin-top: 24px;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    overflow: hidden;
+    max-width: 600px;
+  }
+  .rating-cell {
+    flex: 1;
+    padding: 12px 16px;
+    border-right: 1px solid var(--rule);
+    background: var(--bg-white);
+  }
+  .rating-cell:last-child { border-right: none; }
+  .rc-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 4px;
+  }
+  .rc-value {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .rc-value.buy { color: var(--green); }
+  .rc-value.price { color: var(--accent-bright); }
+  .rc-value.target { color: var(--green); }
+  .meta-line {
+    display: flex;
+    gap: 24px;
+    margin-top: 16px;
+    font-size: 11px;
+    color: var(--ink-muted);
+    flex-wrap: wrap;
+  }
+  .meta-line span { font-weight: 600; color: var(--ink-light); }
+
+  /* ─── DISCLAIMER BAR ─── */
+  .disclaimer-bar {
+    background: var(--accent-gold-light);
+    border: 1px solid #d4b574;
+    border-radius: 2px;
+    padding: 10px 14px;
+    font-size: 11px;
+    color: #7a5a10;
+    margin: 20px 0 32px;
+    line-height: 1.5;
+  }
+
+  /* ─── SECTIONS ─── */
+  .section {
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--rule-light);
+  }
+  .section:last-of-type { border-bottom: none; }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .section-num {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    flex-shrink: 0;
+    min-width: 28px;
+  }
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink);
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 4px;
+    flex: 1;
+  }
+
+  p { margin-bottom: 12px; font-size: 14.5px; color: var(--ink-mid); }
+  p:last-child { margin-bottom: 0; }
+
+  /* ─── THESIS PILLARS ─── */
+  .pillars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .pillar {
+    background: var(--bg-white);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent-bright);
+    border-radius: 2px;
+    padding: 14px 16px;
+  }
+  .pillar-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-bright);
+    margin-bottom: 6px;
+  }
+  .pillar p { font-size: 13px; margin-bottom: 0; }
+
+  /* ─── KPI STRIP ─── */
+  .kpi-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin: 20px 0;
+  }
+  .kpi-card {
+    background: var(--bg-white);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 14px 14px 12px;
+    text-align: center;
+  }
+  .kpi-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 6px;
+  }
+  .kpi-value {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .kpi-sub {
+    font-size: 10.5px;
+    color: var(--ink-muted);
+    margin-top: 3px;
+  }
+  .kpi-value.positive { color: var(--green); }
+
+  /* ─── FINANCIAL TABLE ─── */
+  .fin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 16px 0;
+  }
+  .fin-table th {
+    background: var(--accent);
+    color: #ffffff;
+    text-align: right;
+    padding: 9px 12px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .fin-table th:first-child { text-align: left; }
+  .fin-table td {
+    padding: 8px 12px;
+    text-align: right;
+    color: var(--ink-mid);
+    border-bottom: 1px solid var(--rule-light);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+  }
+  .fin-table td:first-child {
+    text-align: left;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    color: var(--ink);
+    font-size: 13px;
+  }
+  .fin-table tr:nth-child(even) td { background: #f5f7fa; }
+  .fin-table tr.highlight td { background: var(--green-bg); font-weight: 600; }
+  .fin-table tr.highlight td:first-child { color: var(--green); }
+  .table-note {
+    font-size: 11px;
+    color: var(--ink-muted);
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  /* ─── VALUATION TABLE ─── */
+  .val-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 16px 0;
+  }
+  .val-table th {
+    border-bottom: 2px solid var(--accent);
+    text-align: right;
+    padding: 8px 10px;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+  }
+  .val-table th:first-child { text-align: left; }
+  .val-table td {
+    padding: 8px 10px;
+    text-align: right;
+    border-bottom: 1px solid var(--rule-light);
+    color: var(--ink-mid);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+  }
+  .val-table td:first-child {
+    text-align: left;
+    font-family: var(--font-sans);
+    color: var(--ink);
+    font-size: 13px;
+  }
+  .val-table tr.hacksaw-row td {
+    background: #e8f0fa;
+    font-weight: 700;
+    color: var(--accent-bright);
+  }
+  .val-table tr.hacksaw-row td:first-child { color: var(--accent); }
+
+  /* ─── RISK/CATALYST GRID ─── */
+  .rc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .rc-item {
+    background: var(--bg-white);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 13px 15px;
+  }
+  .rc-item.risk { border-left: 3px solid #c0392b; }
+  .rc-item.catalyst { border-left: 3px solid var(--green); }
+  .rc-item-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 5px;
+  }
+  .rc-item.risk .rc-item-title { color: #c0392b; }
+  .rc-item.catalyst .rc-item-title { color: var(--green); }
+  .rc-item p { font-size: 12.5px; margin-bottom: 0; color: var(--ink-mid); }
+
+  /* ─── INLINE HIGHLIGHT ─── */
+  .highlight-box {
+    background: var(--accent-gold-light);
+    border: 1px solid #d4b574;
+    border-left: 3px solid var(--accent-gold);
+    border-radius: 2px;
+    padding: 14px 16px;
+    margin: 16px 0;
+  }
+  .highlight-box p { font-size: 13.5px; color: #5a3d08; margin-bottom: 0; font-style: italic; }
+
+  /* ─── FOOTER ─── */
+  .report-footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 2px solid var(--accent);
+    font-size: 10.5px;
+    color: var(--ink-muted);
+    line-height: 1.6;
+  }
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+  .footer-bank {
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 10px;
+    color: var(--accent);
+  }
+
+  /* ─── PRINT ─── */
+  @media print {
+    body { background: white; padding: 0; max-width: 100%; }
+    .section { break-inside: avoid; }
+  }
+
+  @media (max-width: 600px) {
+    .pillars { grid-template-columns: 1fr; }
+    .kpi-strip { grid-template-columns: 1fr 1fr; }
+    .rc-grid { grid-template-columns: 1fr; }
+    .rating-strip { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="report-header">
+  <div class="bank-line">Aksjeanalyse — Initiering av Dekning</div>
+  <div class="company-name">Hacksaw Gaming AB&nbsp;<span style="font-size:18px; color: var(--ink-light);">(HACK.ST)</span></div>
+  <div class="company-sub">iGaming B2B Innhold &amp; Plattform · Nasdaq Stockholm · Sektor: Teknologi / Interaktiv Underholdning</div>
+
+  <div class="rating-strip">
+    <div class="rating-cell">
+      <div class="rc-label">Anbefaling</div>
+      <div class="rc-value buy">KJØP</div>
+    </div>
+    <div class="rating-cell">
+      <div class="rc-label">Gjeldende Kurs</div>
+      <div class="rc-value price">SEK 59</div>
+    </div>
+    <div class="rating-cell">
+      <div class="rc-label">12-mnd Kursmål</div>
+      <div class="rc-value target">SEK 105</div>
+    </div>
+    <div class="rating-cell">
+      <div class="rc-label">Implisert Oppside</div>
+      <div class="rc-value buy">+78%</div>
+    </div>
+    <div class="rating-cell">
+      <div class="rc-label">Markedsverdi</div>
+      <div class="rc-value">~SEK 17B</div>
+    </div>
+  </div>
+
+  <div class="meta-line">
+    <div>Dato: <span>13. mars 2026</span></div>
+    <div>Analytiker: <span>Aksjeanalyseavdelingen</span></div>
+    <div>Sektordekning: <span>iGaming &amp; Digital Underholdning</span></div>
+    <div>Rapporttype: <span>Initiering av Dekning</span></div>
+  </div>
+</header>
+
+<div class="disclaimer-bar">
+  <strong>Viktige opplysninger:</strong> Denne rapporten er utarbeidet utelukkende for institusjonelle investorer og utgjør ikke investeringsrådgivning. Alle finansielle prognoser er analytikeres estimater. Se fullstendige forbehold på siste side. Historisk avkastning er ikke en pålitelig indikator på fremtidig resultat.
+</div>
+
+<!-- ═══ 1. INVESTMENT THESIS ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <div class="section-title">Investeringstese</div>
+  </div>
+
+  <div class="highlight-box">
+    <p>Vi initierer dekning av Hacksaw Gaming AB (HACK.ST) med en <strong>KJØP</strong>-anbefaling og et 12-måneders kursmål på <strong>SEK 105</strong>, noe som innebærer cirka 78% oppside fra gjeldende kurs på SEK 59. Vi vurderer den nåværende verdsettelsen som fundamentalt feilpriset: Hacksaw er en av de høyest marginale, raskest voksende B2B-programvareplattformene i europeiske offentlige markeder, men handles med en betydelig rabatt sammenlignet med både iGaming- og nordiske teknologiselskaper.</p>
+  </div>
+
+  <p>Kjøpscaset er bygget på fem strukturelle søyler. For det første opererer Hacksaw en ren programvareplattform med nær nullkostnader per inkrementell enhet, som konverterer inntekter til EBIT med omtrent 82% margin — et tall som er bemerkelsesverdig sett i forhold til alle sammenlignbare programvare- eller spillselskaper. For det andre er selskapet i en tidlig fase av geografisk ekspansjon, med Nord-Amerika (et marked som for øyeblikket bidrar med kun ~15% av inntektene) som representerer en flerårig, reguleringsbasert katalysator. For det tredje skaper OpenRGS-plattformen dyptgripende operatørbinding, og fungerer mer som enterprise-mellomvare enn et konvensjonelt spillstudio. For det fjerde har ledelsen forpliktet seg til å returnere minst 75% av nettoresultatet til aksjonærene årlig, noe som genererer en FCF-avkastning på over 11% ved FY26-konsensusestimater. For det femte har aksjen falt fra SEK 87 til SEK 59 siden børsnoteringen — ikke på grunn av forverrede fundamentaler, men på grunn av likviditetspress fra den begrensede free float på 15%, noe som gir et overbevisende inngangspunkt for langsiktige investorer.</p>
+
+  <div class="pillars">
+    <div class="pillar">
+      <div class="pillar-title">Søyle I — Marginstruktur</div>
+      <p>82% justert EBIT-margin på €197,5M inntekter i FY25. Ren programvaremodell uten fysisk drift. Marginer eksepsjonelle selv på skala vs. Evolution (~71%), Playtech eller tilsvarende.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-title">Søyle II — Nord-Amerikansk Opsjon</div>
+      <p>Pennsylvania-godkjenning (juli 2025) og Alberta-spilllisens representerer tidlige innganger i ett av verdens mest lukrative regulerte iGaming-markeder. Nord-Amerika underpenetrert med ~15% av inntektene.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-title">Søyle III — Plattformfortrinn (OpenRGS)</div>
+      <p>Hacksaws proprietære RGS muliggjør rask flermarkedslansering til nær null marginalkostnad. Tredjepartsstudioer distribuerer nå gjennom OpenRGS, og forsterker nettverkseffekter og diversifiserer innholdsproduksjonen.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-title">Søyle IV — Aksjonæravkastning</div>
+      <p>Policy om å returnere ≥75% av nettoresultatet årlig. Foreslått utbytte for FY25 på €0,40/aksje pluss inntil 10% tilbakekjøpsmandat. FCF-avkastning på ~11% på FY26E til gjeldende kurser er sjeldent for en vekstbedrift på 30%+.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-title">Søyle V — Verdsettelsesdiskontering</div>
+      <p>HACK handles til 7,5x FY26E EV/EBITDA vs. 8,7x for iGaming B2B-konkurrenter og 15,7x for nordiske teknologiselskaper. En beskjeden re-rating mot sektormedianen gir >50% kursoppside uten å ta hensyn til inntjeningsvekst.</p>
+    </div>
+  </div>
+
+  <div class="kpi-strip">
+    <div class="kpi-card">
+      <div class="kpi-label">FY25 Inntekter</div>
+      <div class="kpi-value">€197,5M</div>
+      <div class="kpi-sub">+44% ÅoÅ</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Just. EBIT-margin</div>
+      <div class="kpi-value positive">82%</div>
+      <div class="kpi-sub">FY25 faktisk</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Nettoresultat FY25</div>
+      <div class="kpi-value">€142,8M</div>
+      <div class="kpi-sub">+30% ÅoÅ</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Drifts-kontantstrøm</div>
+      <div class="kpi-value">€152,1M</div>
+      <div class="kpi-sub">FY25 faktisk</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 2. COMPANY OVERVIEW ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <div class="section-title">Selskapsoversikt</div>
+  </div>
+
+  <p>Hacksaw Gaming AB ble grunnlagt i 2017 og har hovedkontor i Stockholm, Sverige. Selskapet er en B2B iGaming-teknologiplattform og spillutviklingsselskap. Hacksaw opererer i hele B2B iGaming-verdikjeden — fra proprietær spillutvikling og aggregering av tredjepartsstudioer til distribusjon gjennom private og statseid kasinooperatører globalt. Hacksaw ble børsnotert på Nasdaq Stockholm (ticker: HACK) i juni 2025 via en overtegnet børsnotering som verdsatte selskapet til omtrent SEK 22 milliarder, og hentet inn SEK 4 milliarder i sekundærproveny for eksisterende aksjonærer uten primær utvanning.</p>
+
+  <p><strong>Forretningsmodell.</strong> Hacksaws inntekter er royaltybaserte og beregnes som en prosentandel av brutto spillinntekter (GGR) generert av operatører som bruker selskapets spill og plattform. Denne modellen er svært skalerbar: når et spill er utviklet og sertifisert, kan det distribueres til alle integrerte operatører til praktisk talt null marginalkostnad. Selskapet utvikler tre primære innholdssegmenter — digitale spilleautomater, skrapelodd og instant win-spill — og supplerer intern studiooutput ved å gjøre det mulig for tredjepartsutviklere å bygge og distribuere gjennom sin OpenRGS-plattform, for hvilken den tjener plattform-som-tjeneste-inntekter.</p>
+
+  <p><strong>Posisjonering i iGaming-økosystemet.</strong> Hacksaw befinner seg i B2B-leverandørlaget i iGaming-verdikjeden — oppstrøms fra operatører, nedstrøms fra regulatorer. Dette er strukturelt attraktivt: B2B-leverandører tjener varige royalty-økonomi uten å bære kundeanskaffelseskostnader, betalingsbehandlingsrisiko eller regulatorisk lisenskompleksitet som belaster direkte-til-forbruker-operatører. Viktige operatørdistribusjonspartnere inkluderer FanDuel (Nord-Amerika), LiveScore Group, Daznbet og Stake, blant 200+ integrerte operatører i 70+ land.</p>
+
+  <p><strong>Geografisk fordeling (FY24).</strong> Europa utgjorde omtrent 55% av inntektene, med Storbritannia og Norden som de mest vesentlige jurisdiksjonene. Asia bidro med ~22%, og Nord-Amerika med omtrent 15% — med sistnevnte klar for akselerert vekst etter de regulatoriske godkjenningene i Pennsylvania og Alberta i 2024–2025.</p>
+</section>
+
+<!-- ═══ 3. INDUSTRY ANALYSIS ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">03</div>
+    <div class="section-title">Bransjeanalyse</div>
+  </div>
+
+  <p>Det globale markedet for nettbasert gambling befinner seg i en strukturell flerårig vekstsyklus, drevet av krysningspunktet mellom regulatorisk ekspansjon, mobilspredning og demografisk medvind. Det totale adresserbare markedet for iGaming er estimert til omtrent USD 100 milliarder i GGR i 2025, med nettets andel av total gambling som fortsatt forskyves fra landbasert til digitale kanaler i jevnt tempo.</p>
+
+  <p><strong>Strukturelle vekstdrivere.</strong> Den mest kraftfulle katalysatoren for bransjen er re-regulering: ettersom jurisdiksjoner på tvers av Nord-Amerika (Pennsylvania, New Jersey, Michigan, Ontario), Latin-Amerika og deler av Asia formaliserer lisensrammeverk, migrerer tidligere gråmarkedsbasert GGR til lisensierte miljøer der seriøse B2B-leverandører som Hacksaw er påkrevd av compliance-protokoller. Mobilspilling står for majoriteten av iGaming-aktiviteten, til fordel for digitalt innfødte plattformer. Den vedvarende forskyvningen fra landbasert til online gambling er strukturell, ikke konjunkturell.</p>
+
+  <p><strong>Konkurransebilde.</strong> B2B-innholds- og plattformmarkedet er fragmentert, men et fåtall skalerte aktører dominerer operatørenes preferanser. Evolution AB er fortsatt kategorileder innen live casino, men konkurrerer ikke direkte i spilleautomat- og instant win-segmentet. Pragmatic Play, Play'n GO og NetEnt/Red Tiger (nå eid av Evolution) er de nærmeste konkurrentene. Playtech og Light & Wonder konkurrerer i plattform-som-tjeneste-laget. Ingen av disse konkurrentene kombinerer Hacksaws marginprofil, innholdshastighet (60+ spill/år) og plattformfleksibilitet i én enkelt virksomhet.</p>
+
+  <p><strong>Hacksaws konkurransefortrinn.</strong> Selskapets differensiering hviler på tre vektorer: (1) den proprietære OpenRGS-teknologistabelen, som muliggjør raskere regulatorisk sertifisering og utrulling enn eldre RGS-arkitekturer; (2) en innholdsportefølje med dokumentert sterke engasjementsmålinger — gjennomsnittlige daglige spillrunder vokste 72% i H1 2025, noe som indikerer genuin spillerpreferanse fremfor distribusjonsbasert plasseringsstøtte; og (3) den selvforsterkende syklusen av operatørintegrering, der hver ny operatørtilknytning øker datamengden om spillerpreferanser som informerer fremtidig spilldesign.</p>
+</section>
+
+<!-- ═══ 4. GROWTH DRIVERS ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">04</div>
+    <div class="section-title">Vekstdrivere</div>
+  </div>
+
+  <p><strong>Innholdspipeline og porteføljehastighet.</strong> Hacksaw lanserte 38 internt utviklede spill i FY24 og fortsatte i samme tempo i FY25, med 12 nye interne titler i Q3 alene, samt 15 tredjepartspartnerspill distribuert gjennom OpenRGS. Med et gjennomsnitt på €0,74 millioner i inntekter per spill i FY24, akkumulerer hver tilleggstittel royaltygrunnlaget. Kritisk nok har Hacksaw demonstrert en repeterbar evne til å lage spill med vedvarende spillerengasjement — titler som Wanted Dead or a Wild og Chaos Crew fortsetter å drive uforholdsmessig store spillrunder lenge etter lansering, et kjennetegn på elite innholdsproduksjon.</p>
+
+  <p><strong>Nord-Amerikansk ekspansjon — den avgjørende mellomlangsiktige katalysatoren.</strong> Det amerikanske iGaming-markedet er strukturelt den viktigste vekstvektoren. Hacksaw entret Pennsylvania via sin FanDuel-partnerskap i juli 2025, etter godkjenning av Interactive Gaming Manufacturer License i desember 2024. Med ytterligere statlige lisenssøknader forventet og Alberta (Canada) gaming service provider-lisens sikret, gjennomfører selskapet en disiplinert, compliance-først markedsinntrengingsstrategi som bør generere vedvarende inntektsbidrag fra 2026 og fremover. Nord-Amerika representerer potensielt 25–30% av inntektene innen tre år, opp fra ~15% i dag.</p>
+
+  <p><strong>Plattform-som-tjeneste-økonomi.</strong> OpenRGS-plattformen utvikler seg fra et internt verktøy til et flerleierutviklerøkosystem. Tredjepartsstudioer utgjør nå omtrent 50% av spilloutput distribuert via plattformen, mens de bidrar med ca. 5% av GGR i FY24 — et forhold som er akkretivt etter hvert som studiodeltakelsen skalerer. Denne plattform-nettverksdynamikken er analog med en app store-modell: jo flere studioer som slutter seg til, jo bredere blir operatøradopsjonen av plattformen, og per-distribusjonsøkonomien forbedres.</p>
+
+  <p><strong>Operatørfordypning og nye partnerskap.</strong> Hacksaw signerte 48 nye operatøravtaler i Q3 2025 alene. Etter hvert som operatørbasen utvides, reduseres inntektskonsentrasjonsrisikoen — toppkunden bidro med 20% av FY24-inntektene, noe som falt til 15% i Q1 2025. Nye partnerskap med tier-1-operatører i nylig regulerte markeder representerer både inntektsdiversifisering og en strukturell risikoreduksjon av virksomheten.</p>
+
+  <p><strong>Skalerbarhet av forretningsmodellen.</strong> Økonomien er unikt overbevisende: med omtrent 254 ansatte som genererer €197,5M i FY25-inntekter, oppnår Hacksaw en inntekt per ansatt på omtrent €780 000 — blant de høyeste i europeisk børsnotert programvare. Hver ny operatørintegrasjon, hvert nytt markedsinngang og hver ytterligere spillutgivelse akkumulerer royaltygrunnlaget uten tilsvarende økning i faste driftskostnader. Modellens driftseffekt er strukturell, ikke temporær.</p>
+</section>
+
+<!-- ═══ 5. FINANCIAL PERFORMANCE ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">05</div>
+    <div class="section-title">Finansiell Utvikling &amp; Enhetsøkonomi</div>
+  </div>
+
+  <p>Hacksaws finansielle historikk er eksepsjonell uansett målestokk. Inntektene vokste fra omtrent €32 millioner i FY22 til €197,5 millioner i FY25, noe som representerer en treårig CAGR på omtrent 83%. Kritisk nok er denne inntektsveksten oppnådd uten marginforringelse — den justerte EBIT-marginen har holdt seg i intervallet 82–84% gjennom hele perioden, noe som demonstrerer den iboende driftseffekten i plattformmodellen.</p>
+
+  <table class="fin-table">
+    <thead>
+      <tr>
+        <th>€ millioner</th>
+        <th>FY22</th>
+        <th>FY23</th>
+        <th>FY24</th>
+        <th>FY25A</th>
+        <th>FY26E</th>
+        <th>FY27E</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Inntekter</td>
+        <td>32,3</td>
+        <td>67,2</td>
+        <td>137,1</td>
+        <td>197,5</td>
+        <td>263,0</td>
+        <td>330,0</td>
+      </tr>
+      <tr>
+        <td>ÅoÅ Vekst</td>
+        <td>—</td>
+        <td>+108%</td>
+        <td>+104%</td>
+        <td>+44%</td>
+        <td>+33%</td>
+        <td>+25%</td>
+      </tr>
+      <tr>
+        <td>Just. EBIT</td>
+        <td>25,1</td>
+        <td>55,8</td>
+        <td>115,2</td>
+        <td>161,4</td>
+        <td>213,0</td>
+        <td>267,0</td>
+      </tr>
+      <tr class="highlight">
+        <td>Just. EBIT-margin</td>
+        <td>77,7%</td>
+        <td>83,0%</td>
+        <td>84,0%</td>
+        <td>81,7%</td>
+        <td>~81%</td>
+        <td>~81%</td>
+      </tr>
+      <tr>
+        <td>Nettoresultat</td>
+        <td>—</td>
+        <td>—</td>
+        <td>109,4</td>
+        <td>142,8</td>
+        <td>190,0E</td>
+        <td>240,0E</td>
+      </tr>
+      <tr>
+        <td>Driftskontantstrøm</td>
+        <td>—</td>
+        <td>—</td>
+        <td>~100</td>
+        <td>152,1</td>
+        <td>195,0E</td>
+        <td>245,0E</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="table-note">Kilde: Selskapets rapporter, analytikernes estimater for FY26E–FY27E. FY26E/FY27E er konsensusbaserte; faktiske resultater kan avvike vesentlig.</div>
+
+  <p style="margin-top: 16px;">Enhetsøkonomien er tilsvarende differensiert. Per spill gjennomsnittlig €0,74 millioner i annualisert inntekt for FY24-titler. Med 60+ spill lansert årlig og en katalog som fortsetter å generere langhale-royalties, akkumulerer porteføljeøkonomien seg meningsfylt over tid. Kontantkonverteringssyklusen er kort — GGR-baserte royalties gjøres vanligvis opp månedlig — og kapitalinvesteringsintensiteten er minimal, med FoU-kapitalisering som den primære balanseposten.</p>
+</section>
+
+<!-- ═══ 6. VALUATION ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">06</div>
+    <div class="section-title">Verdsettelse</div>
+  </div>
+
+  <p>Til SEK 59 per aksje (omtrent €5,20) handles Hacksaw med en vesentlig rabatt til både den iboende fundamentale verdien og til relevante børsnoterte sammenlignbare selskaper. Vi utleder et 12-måneders kursmål på SEK 105 ved hjelp av en blandet metodikk: EV/EBITDA-sammenligning med konkurrenter (vektet 50%), diskontert kontantstrøm (vektet 30%) og vekstjustert inntektsmultippel (vektet 20%).</p>
+
+  <table class="val-table">
+    <thead>
+      <tr>
+        <th>Selskap</th>
+        <th>FY26E EV/EBITDA</th>
+        <th>FY26E EV/Inntekter</th>
+        <th>Innt.vekst (FY26E)</th>
+        <th>EBITDA-margin</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="hacksaw-row">
+        <td>Hacksaw Gaming (HACK.ST)</td>
+        <td>7,5x</td>
+        <td>~6,0x</td>
+        <td>~33%</td>
+        <td>~82%</td>
+      </tr>
+      <tr>
+        <td>Evolution AB</td>
+        <td>~14x</td>
+        <td>~9x</td>
+        <td>~12%</td>
+        <td>~70%</td>
+      </tr>
+      <tr>
+        <td>Playtech</td>
+        <td>~9x</td>
+        <td>~2x</td>
+        <td>~8%</td>
+        <td>~25%</td>
+      </tr>
+      <tr>
+        <td>Light &amp; Wonder</td>
+        <td>~12x</td>
+        <td>~3x</td>
+        <td>~10%</td>
+        <td>~30%</td>
+      </tr>
+      <tr>
+        <td>iGaming B2B peer median</td>
+        <td>8,7x</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>Nordisk tech peer median</td>
+        <td>15,7x</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="table-note">Kilde: Jefferies initiering (august 2025), DNB Carnegie-analyse, analytikernes estimater. Hacksaws EBITDA-margin overstiger vesentlig alle børsnoterte konkurrenter.</div>
+
+  <p style="margin-top: 16px;"><strong>EV/EBITDA-analyse.</strong> Til 7,5x FY26E EV/EBITDA handles Hacksaw med 14% rabatt til iGaming B2B-konkurrenter og 52% rabatt til nordiske teknologikonkurrenter — til tross for at selskapet leverer vesentlig overlegne marginer og vekst. Selv en beskjeden re-rating til 10x FY26E EV/EBITDA (fortsatt under konkurrentene) innebærer en aksjekurs på omtrent SEK 88–92. Til 12x — et multippel som er konsistent med iGaming-sektorledere — vil kursmålet være SEK 105–115.</p>
+
+  <p><strong>DCF-kontroll.</strong> Ved bruk av et basisscenario med 30% FY26 inntektsvekst (avtagende til 15% terminal vekst), 80% EBIT-margin, 12% diskonteringsrente og 20x terminal inntjeningmultippel, returnerer vår DCF en egenverdi i intervallet SEK 95–110. FCF-avkastningen på ~11% til gjeldende kurser på FY26-estimater er anomal for et selskap som vokser med 30%+ — denne avkastningskompresjonen gir strukturell verdsettelsestøtte.</p>
+
+  <p><strong>Re-rating-katalysatorer.</strong> De primære hindringene for re-rating — begrenset free float (15%) og eksponering mot uregulerte markedsinntekter — er begge løsbare over tid. Etter hvert som regulert markedsandel forbedres via Nord-Amerikansk ekspansjon og eksisterende aksjonærer delvis realiserer, vil free float utvides og likviditetsrabatten bør innsnevres vesentlig. Vi ser 12–18 måneder som den realistiske horisonten for at denne re-ratingen materialiserer seg.</p>
+</section>
+
+<!-- ═══ 7. RISKS ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">07</div>
+    <div class="section-title">Sentrale Risikoer</div>
+  </div>
+
+  <div class="rc-grid">
+    <div class="rc-item risk">
+      <div class="rc-item-title">Regulatorisk Eksponering</div>
+      <p>Kun ~12% av inntektene i Q1 2025 kom fra verifiserbart lisensierte operatører i fullt regulerte markeder. Regulatoriske innstramminger i nøkkel-gråmarkedsjurisdiksjoner — særlig i Asia — kan skape vesentlige inntektsmotbakker. Avbøtende tiltak: akselererende ekspansjon i regulerte markeder.</p>
+    </div>
+    <div class="rc-item risk">
+      <div class="rc-item-title">Kundekonsentrasjon</div>
+      <p>Toppkunden (Stake, der styremedlem Ed Craven eier ~4% av aksjene) utgjorde ~20% av FY24-inntektene. Dette skaper et governance-konsentrasjonsproblem. Nedgangen til 15% i Q1 2025 viser positiv utvikling, men forblir en overvåkningsrisiko.</p>
+    </div>
+    <div class="rc-item risk">
+      <div class="rc-item-title">Innholdsvolatilitet</div>
+      <p>iGaming-innhold er av natur drivet av hits. Dersom nye spillutgivelser ikke møter engasjementsmålene, kan inntektsveksten avta raskere enn modellert. RGS-plattformen gir diversifisering, men konsentrasjon i toppitler vedvarer.</p>
+    </div>
+    <div class="rc-item risk">
+      <div class="rc-item-title">Free Float &amp; Likviditet</div>
+      <p>Med kun ~15% av aksjene i free float etter børsnotering står institusjonelle investorer overfor eksekveringsrisiko på posisjonsstørrelse. Overheng fra store aksjonærer som søker likviditet kan skape nedadgående kurspress på kort sikt.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 8. CATALYSTS ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">08</div>
+    <div class="section-title">Kortsiktige Katalysatorer</div>
+  </div>
+
+  <div class="rc-grid">
+    <div class="rc-item catalyst">
+      <div class="rc-item-title">Utvidelse av Statslisenser i USA</div>
+      <p>Ytterligere statlige godkjenninger (Michigan, New Jersey, Connecticut) kan søkes i H1 2026 og vil representere vesentlige inntektsopplåsninger. Pennsylvania-partnerskapet med FanDuel validerer distribusjonsmodellen for replikering.</p>
+    </div>
+    <div class="rc-item catalyst">
+      <div class="rc-item-title">Q1 2026 Resultater (28. apr 2026)</div>
+      <p>Neste inntektsrapport forfaller 28. april. Sterk Q4 2025-momentum (26% ÅoÅ-vekst) og fortsatt spillpipelinegjennomføring kan utløse analytikernes estimatoppgraderinger i forkant av rapporten.</p>
+    </div>
+    <div class="rc-item catalyst">
+      <div class="rc-item-title">Free Float-utvidelse</div>
+      <p>Etter hvert som lock-up-perioder utløper og store aksjonærer selektivt realiserer, bør forbedret likviditet tiltrekke institusjonell allokering og redusere likviditetsrabatten i gjeldende multippel. Analytikerdekningsutvidelse pågår (Jefferies, Berenberg, DNB Carnegie alle med Kjøp).</p>
+    </div>
+    <div class="rc-item catalyst">
+      <div class="rc-item-title">OpenRGS Plattformskalering</div>
+      <p>Fortsatt vekst i tredjepartsstudioers adoptering av OpenRGS — som for øyeblikket genererer ~5% av GGR — kan re-rate aksjen fra et innholdsstudio-multippel mot et plattform/infrastruktur-multippel, noe som innebærer en vesentlig høyere egenverdi.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 9. CONCLUSION ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">09</div>
+    <div class="section-title">Konklusjon</div>
+  </div>
+
+  <p>Hacksaw Gaming AB presenterer et av de mest overbevisende risiko-/avkastningsforholdene i europeisk teknologi- og spillaksjer til gjeldende kurs. Selskapet har over en vedvarende periode demonstrert en evne til å vokse inntektene i eksepsjonelt tempo, mens det opprettholder EBIT-marginer som er strukturelt overlegne alle sammenlignbare børsnoterte konkurrenter. Plattformarkitekturen — et proprietært RGS som fungerer som genuin mellomvare for det globale nettbaserte kasinoøkosystemet — skaper operatørbytte-kostnader og nettverkseffekter som ikke er tilstrekkelig fanget opp i et enkelt innholdsstudio-verdsettelsesrammeverk.</p>
+
+  <p>Til 7,5x FY26E EV/EBITDA mot 82% EBIT-margin, ~33% estimert inntektsvekst og en FCF-avkastning på over 11%, er aksjen priset for forverring som vår analyse ikke støtter. Verdsettelsesdiskonteringen gjenspeiler kortsiktig friksjon — begrenset free float, oppfatning av uregulert markedseksponering og post-børsnotering kursdannelse — fremfor noen strukturell mangel i forretningsmodellen. Hvert av disse faktorene er adresserbart og forventes å forbedres vesentlig over vår 12-måneders investeringshorisont.</p>
+
+  <p>Med fire analytikerinitiationer på Kjøp, et konsensusmål på omtrent SEK 103, og en innsider som nylig kjøpte aksjer til SEK 76,94 — godt over gjeldende kurs — er overbevisningen fra både sell-side-forskning og informerte deltakere tydelig. Vi stiller oss bak dette synet og initierer dekning med en <strong>KJØP-anbefaling og et kursmål på SEK 105</strong>.</p>
+
+  <div class="highlight-box">
+    <p>Kjernen i investeringsinnsikten er enkel: markedet anvender et verdiaksje-multippel på en vekst-kvalitetsvirksomhet. Når re-ratingen inntreffer — drevet av Nord-Amerikansk inntektsskalering, free float-normalisering og fortsatt marginlevering — vil størrelsen på korreksjonen være betydelig. Vi estimerer 78% oppside til vårt 12-månedersmål med et asymmetrisk risikoprofil som er vesentlig skjevt til fordel for oppsiden.</p>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="report-footer">
+  <div class="footer-top">
+    <div class="footer-bank">Aksjeanalyseavdelingen — Kun for Institusjonell Distribusjon</div>
+    <div>13. mars 2026</div>
+  </div>
+  <p style="font-size: 10.5px; color: var(--ink-muted); line-height: 1.6; margin-bottom: 0;">
+    Dette dokumentet er utarbeidet utelukkende for informasjonsformål og er rettet mot institusjonelle investorer. Det utgjør ikke investeringsrådgivning, et tilbud om å kjøpe eller selge, eller en oppfordring i noen jurisdiksjon der slik aktivitet ville være ulovlig. Finansielle prognoser merket "E" er analytikernes estimater og kan avvike vesentlig fra faktiske resultater. Analytikeren(e) ansvarlig for denne rapporten kan ha posisjoner i de diskuterte verdipapirene. Historisk avkastning er ikke en pålitelig indikator på fremtidige resultater. De viktigste forutsetningene for kursmålet er: (1) FY26E EV/EBITDA re-rating til 10–12x; (2) vedvarende inntektsvekst på 30–34% i FY26; (3) EBIT-margin opprettholdelse i området 80–82%. Leserne bør gjennomgå Hacksaw Gamings fullstendige finansielle opplysninger på hacksawgroup.com/en/investors og utøve uavhengig vurdering i investeringsbeslutninger. Alle tall i EUR med mindre annet er oppgitt. SEK/EUR-kurs antatt ~11,3x.
+  </p>
+</footer>
+
+</body>
+</html>
