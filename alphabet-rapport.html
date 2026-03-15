@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alphabet (GOOGL) — Equity Research | Kasper Nes Larsen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink:#0f1923; --ink-mid:#2e3d4f; --ink-light:#5a6a7a; --ink-muted:#8a9aaa;
+  --rule:#c8d0da; --rule-light:#e4e8ed;
+  --accent:#1a3a5c; --accent-bright:#1e5ba8;
+  --accent-gold:#b8860b; --accent-gold-light:#f9f3e3;
+  --green:#0d5c2f; --green-bg:#eaf4ee;
+  --red:#8b1a1a; --red-bg:#faeaea;
+  --bg:#fafbfc; --bg-white:#ffffff;
+  --font-serif:'Playfair Display',Georgia,serif;
+  --font-sans:'Source Sans 3',system-ui,sans-serif;
+  --font-mono:'Source Code Pro',monospace;
+}
+html { font-size:15px; }
+body { font-family:var(--font-sans); background:var(--bg); color:var(--ink); line-height:1.65; max-width:860px; margin:0 auto; padding:0 24px 80px; }
+
+/* ── LANG TOGGLE ── */
+.lang-bar { display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid var(--rule-light); margin-bottom:0; }
+.back-link { display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:600; color:var(--accent-bright); text-decoration:none; }
+.back-link:hover { text-decoration:underline; }
+.lang-toggle { display:flex; border:1px solid var(--rule); border-radius:3px; overflow:hidden; }
+.lang-btn { font-family:var(--font-mono); font-size:11px; font-weight:600; letter-spacing:0.08em; padding:6px 14px; cursor:pointer; color:var(--ink-muted); background:var(--bg-white); border:none; transition:all 0.2s; }
+.lang-btn.active { background:var(--accent); color:#fff; }
+
+/* ── HEADER ── */
+.report-header { border-top:4px solid var(--accent); border-bottom:1px solid var(--rule); padding:36px 0 28px; }
+.bank-line { font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--accent-bright); margin-bottom:20px; }
+.company-name { font-family:var(--font-serif); font-size:34px; font-weight:700; color:var(--ink); letter-spacing:-0.5px; line-height:1.15; }
+.company-sub { font-size:13px; color:var(--ink-light); margin-top:4px; }
+.rating-strip { display:flex; margin-top:24px; border:1px solid var(--rule); border-radius:2px; overflow:hidden; max-width:680px; }
+.rating-cell { flex:1; padding:12px 16px; border-right:1px solid var(--rule); background:var(--bg-white); }
+.rating-cell:last-child { border-right:none; }
+.rc-label { font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-muted); margin-bottom:4px; }
+.rc-value { font-family:var(--font-mono); font-size:16px; font-weight:600; color:var(--ink); }
+.rc-value.buy { color:var(--green); }
+.rc-value.price { color:var(--accent-bright); }
+.meta-line { display:flex; gap:24px; margin-top:16px; font-size:11px; color:var(--ink-muted); flex-wrap:wrap; }
+.meta-line span { font-weight:600; color:var(--ink-light); }
+
+.disclaimer-bar { background:var(--accent-gold-light); border:1px solid #d4b574; border-radius:2px; padding:10px 14px; font-size:11px; color:#7a5a10; margin:20px 0 32px; line-height:1.5; }
+
+/* ── SECTIONS ── */
+.section { margin-bottom:40px; padding-bottom:40px; border-bottom:1px solid var(--rule-light); }
+.section:last-of-type { border-bottom:none; }
+.section-header { display:flex; align-items:baseline; gap:12px; margin-bottom:18px; }
+.section-num { font-size:10px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--ink-muted); flex-shrink:0; min-width:28px; }
+.section-title { font-family:var(--font-serif); font-size:20px; font-weight:600; color:var(--ink); border-bottom:2px solid var(--accent); padding-bottom:4px; flex:1; }
+p { margin-bottom:12px; font-size:14.5px; color:var(--ink-mid); }
+p:last-child { margin-bottom:0; }
+
+/* ── PILLARS ── */
+.pillars { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:20px 0; }
+.pillar { background:var(--bg-white); border:1px solid var(--rule); border-left:3px solid var(--accent-bright); border-radius:2px; padding:14px 16px; }
+.pillar-title { font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent-bright); margin-bottom:6px; }
+.pillar p { font-size:13px; margin-bottom:0; }
+
+/* ── KPIS ── */
+.kpi-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:20px 0; }
+.kpi-card { background:var(--bg-white); border:1px solid var(--rule); border-radius:2px; padding:14px; text-align:center; }
+.kpi-label { font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-muted); margin-bottom:6px; }
+.kpi-value { font-family:var(--font-mono); font-size:20px; font-weight:600; color:var(--ink); line-height:1; }
+.kpi-sub { font-size:10.5px; color:var(--ink-muted); margin-top:3px; }
+.kpi-value.positive { color:var(--green); }
+.kpi-value.warning { color:var(--accent-gold); }
+
+/* ── TABLES ── */
+.fin-table { width:100%; border-collapse:collapse; font-size:13px; margin:16px 0; }
+.fin-table th { background:var(--accent); color:#fff; text-align:right; padding:9px 12px; font-size:11px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; }
+.fin-table th:first-child { text-align:left; }
+.fin-table td { padding:8px 12px; text-align:right; color:var(--ink-mid); border-bottom:1px solid var(--rule-light); font-family:var(--font-mono); font-size:12.5px; }
+.fin-table td:first-child { text-align:left; font-family:var(--font-sans); font-weight:600; color:var(--ink); font-size:13px; }
+.fin-table tr:nth-child(even) td { background:#f5f7fa; }
+.fin-table tr.highlight td { background:var(--green-bg); font-weight:600; }
+.fin-table tr.highlight td:first-child { color:var(--green); }
+.fin-table tr.warn td { background:#fef9ec; }
+.fin-table tr.warn td:first-child { color:#8a6000; }
+.table-note { font-size:11px; color:var(--ink-muted); margin-top:6px; font-style:italic; }
+
+.val-table { width:100%; border-collapse:collapse; font-size:13px; margin:16px 0; }
+.val-table th { border-bottom:2px solid var(--accent); text-align:right; padding:8px 10px; font-weight:700; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-light); }
+.val-table th:first-child { text-align:left; }
+.val-table td { padding:8px 10px; text-align:right; border-bottom:1px solid var(--rule-light); color:var(--ink-mid); font-family:var(--font-mono); font-size:12.5px; }
+.val-table td:first-child { text-align:left; font-family:var(--font-sans); color:var(--ink); font-size:13px; }
+.val-table tr.subject-row td { background:#e8f0fa; font-weight:700; color:var(--accent-bright); }
+.val-table tr.subject-row td:first-child { color:var(--accent); }
+
+/* ── RISK / CATALYST GRID ── */
+.rc-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:16px 0; }
+.rc-item { background:var(--bg-white); border:1px solid var(--rule); border-radius:2px; padding:13px 15px; }
+.rc-item.risk { border-left:3px solid #c0392b; }
+.rc-item.catalyst { border-left:3px solid var(--green); }
+.rc-item-title { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:5px; }
+.rc-item.risk .rc-item-title { color:#c0392b; }
+.rc-item.catalyst .rc-item-title { color:var(--green); }
+.rc-item p { font-size:12.5px; margin-bottom:0; color:var(--ink-mid); }
+
+/* ── HIGHLIGHT BOXES ── */
+.highlight-box { background:var(--accent-gold-light); border:1px solid #d4b574; border-left:3px solid var(--accent-gold); border-radius:2px; padding:14px 16px; margin:16px 0; }
+.highlight-box p { font-size:13.5px; color:#5a3d08; margin-bottom:0; font-style:italic; }
+.info-box { background:#e8f0fa; border:1px solid #b0c8f0; border-left:3px solid var(--accent-bright); border-radius:2px; padding:14px 16px; margin:16px 0; }
+.info-box p { font-size:13.5px; color:#1a3a5c; margin-bottom:0; }
+
+/* ── FOOTER ── */
+.report-footer { margin-top:48px; padding-top:20px; border-top:2px solid var(--accent); font-size:10.5px; color:var(--ink-muted); line-height:1.6; }
+.footer-top { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }
+.footer-bank { font-weight:700; letter-spacing:0.1em; text-transform:uppercase; font-size:10px; color:var(--accent); }
+
+@media(max-width:600px){
+  .pillars,.rc-grid { grid-template-columns:1fr; }
+  .kpi-strip { grid-template-columns:1fr 1fr; }
+  .rating-strip { flex-wrap:wrap; }
+}
+</style>
+</head>
+<body>
+
+<!-- LANG BAR -->
+<div class="lang-bar">
+  <a href="index.html" class="back-link">← <span data-en="All research" data-no="Alle analyser">All research</span></a>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="btn-no" onclick="setLang('no')">NO</button>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="report-header">
+  <div class="bank-line" data-en="Equity Research — Initiating Coverage" data-no="Aksjeanalyse — Initiering av Dekning">Equity Research — Initiating Coverage</div>
+  <div class="company-name">Alphabet Inc. <span style="font-size:18px;color:var(--ink-light)">(GOOGL)</span></div>
+  <div class="company-sub" data-en="Global Technology Conglomerate · Nasdaq · Sector: Technology / Digital Advertising / Cloud" data-no="Globalt teknologikonglomerat · Nasdaq · Sektor: Teknologi / Digital reklame / Sky">Global Technology Conglomerate · Nasdaq · Sector: Technology / Digital Advertising / Cloud</div>
+
+  <div class="rating-strip">
+    <div class="rating-cell">
+      <div class="rc-label" data-en="Rating" data-no="Anbefaling">Rating</div>
+      <div class="rc-value buy" data-en="BUY" data-no="KJØP">BUY</div>
+    </div>
+    <div class="rating-cell">
+      <div class="rc-label" data-en="Current Price" data-no="Gjeldende kurs">Current Price</div>
+      <div class="rc-value price">USD 301</div>
+    </div>
+    <div class="rating-cell">
+      <div class="rc-label" data-en="12-Month Target" data-no="12-mnd kursmål">12-Month Target</div>
+      <div class="rc-value buy">USD 400</div>
+    </div>
+    <div class="rating-cell">
+      <div class="rc-label" data-en="Implied Upside" data-no="Implisert oppside">Implied Upside</div>
+      <div class="rc-value buy">+33%</div>
+    </div>
+    <div class="rating-cell">
+      <div class="rc-label" data-en="Market Cap" data-no="Markedsverdi">Market Cap</div>
+      <div class="rc-value">~USD 3.6T</div>
+    </div>
+  </div>
+
+  <div class="meta-line">
+    <div data-en="Date: <span>14 March 2026</span>" data-no="Dato: <span>14. mars 2026</span>">Date: <span>14 March 2026</span></div>
+    <div data-en="Analyst: <span>Kasper Nes Larsen</span>" data-no="Analytiker: <span>Kasper Nes Larsen</span>">Analyst: <span>Kasper Nes Larsen</span></div>
+    <div data-en="Sector: <span>Technology · Cloud · AI</span>" data-no="Sektor: <span>Teknologi · Sky · KI</span>">Sector: <span>Technology · Cloud · AI</span></div>
+  </div>
+</header>
+
+<div class="disclaimer-bar">
+  <strong data-en="Important disclosures:" data-no="Viktige opplysninger:">Important disclosures:</strong>
+  <span data-en="This report is for informational purposes only and does not constitute investment advice. All projections are analyst estimates. Past performance is not indicative of future results." data-no="Denne rapporten er utelukkende for informasjonsformål og utgjør ikke investeringsrådgivning. Alle prognoser er analytikernes estimater. Historisk avkastning er ikke en pålitelig indikator på fremtidige resultater.">This report is for informational purposes only and does not constitute investment advice. All projections are analyst estimates. Past performance is not indicative of future results.</span>
+</div>
+
+<!-- 01 INVESTMENT THESIS -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <div class="section-title" data-en="Investment Thesis" data-no="Investeringstese">Investment Thesis</div>
+  </div>
+
+  <div class="highlight-box">
+    <p data-en="We initiate coverage of Alphabet Inc. (GOOGL) with a BUY rating and a 12-month price target of USD 400, implying 33% upside from the current USD 301. Alphabet is the most undervalued mega-cap technology company in the world. The market is applying a newspaper-industry multiple to a business that holds monopoly positions in search, the world's largest video platform, the third-largest cloud provider, and an autonomous vehicle franchise worth hundreds of billions — all at 28x forward earnings." data-no="Vi initierer dekning av Alphabet Inc. (GOOGL) med KJØP-anbefaling og et 12-måneders kursmål på USD 400, noe som innebærer 33% oppside fra gjeldende USD 301. Alphabet er det mest undervurderte mega-cap teknologiselskapet i verden. Markedet anvender en avisbranksjens multippel på en virksomhet som har monopolposisjoner i søk, verdens største videoplattform, den tredje største skyleverandøren og en autonom kjøretøy-franchise verdt hundrevis av milliarder — alt til 28x fremtidig inntjening.">We initiate coverage of Alphabet Inc. (GOOGL) with a BUY rating and a 12-month price target of USD 400, implying 33% upside from the current USD 301. Alphabet is the most undervalued mega-cap technology company in the world. The market is applying a newspaper-industry multiple to a business that holds monopoly positions in search, the world's largest video platform, the third-largest cloud provider, and an autonomous vehicle franchise worth hundreds of billions — all at 28x forward earnings.</p>
+  </div>
+
+  <div class="pillars">
+    <div class="pillar">
+      <div class="pillar-title" data-en="Pillar I — Search monopoly is intact" data-no="Søyle I — Søkemonopolet er intakt">Pillar I — Search monopoly is intact</div>
+      <p data-en="Google holds 89%+ global search market share — unchanged since ChatGPT launched in 2022. AI Overviews now reaches 1.5 billion monthly users and has increased query volume. The AI threat to search is real but structurally overpriced in the current valuation." data-no="Google har 89%+ global søkemarkedsandel — uendret siden ChatGPT ble lansert i 2022. AI Overviews når nå 1,5 milliarder månedlige brukere og har økt søkevolumet. AI-trusselen mot søk er reell, men strukturelt overpriset i gjeldende verdsettelse.">Google holds 89%+ global search market share — unchanged since ChatGPT launched in 2022. AI Overviews now reaches 1.5 billion monthly users and has increased query volume. The AI threat to search is real but structurally overpriced in the current valuation.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-title" data-en="Pillar II — Cloud is the growth engine" data-no="Søyle II — Sky er vekstmotoren">Pillar II — Cloud is the growth engine</div>
+      <p data-en="Google Cloud grew 48% in Q4 2025 to $17.7B — the fastest growth rate among the three hyperscalers. The $240B customer backlog (up 2x YoY) is contracted revenue waiting to be recognised. Cloud operating income surged 154% to $5.3B." data-no="Google Cloud vokste 48% i Q4 2025 til $17,7 milliarder — den raskeste vekstraten blant de tre hyperskalerne. $240 milliarder i kundeordrebok (opp 2x ÅoÅ) er kontrakterte inntekter som venter på å bli innregnet. Cloud driftsresultat steg 154% til $5,3 milliarder.">Google Cloud grew 48% in Q4 2025 to $17.7B — the fastest growth rate among the three hyperscalers. The $240B customer backlog (up 2x YoY) is contracted revenue waiting to be recognised. Cloud operating income surged 154% to $5.3B.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-title" data-en="Pillar III — YouTube is undervalued" data-no="Søyle III — YouTube er undervurdert">Pillar III — YouTube is undervalued</div>
+      <p data-en="YouTube exceeded $60B in combined ads and subscriptions revenue in 2025 — surpassing Netflix's total revenue. It is the #1 streaming platform in the US by watch time. As a standalone company, YouTube would command a $400–600B valuation." data-no="YouTube oversteg $60 milliarder i kombinerte annonse- og abonnementsinntekter i 2025 — mer enn Netflixs totale inntekter. Det er den #1 strømmeplattformen i USA etter seertid. Som et selvstendig selskap ville YouTube ha en verdi på $400–600 milliarder.">YouTube exceeded $60B in combined ads and subscriptions revenue in 2025 — surpassing Netflix's total revenue. It is the #1 streaming platform in the US by watch time. As a standalone company, YouTube would command a $400–600B valuation.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-title" data-en="Pillar IV — Waymo is a free option" data-no="Søyle IV — Waymo er en gratis opsjon">Pillar IV — Waymo is a free option</div>
+      <p data-en="Waymo is seeking to raise $15B at a $100–110B valuation while operating at minimal cost to Alphabet shareholders. CEO Pichai called Waymo 'meaningful in our financials' by 2027-28. This optionality is essentially unpriced in current multiples." data-no="Waymo søker å hente $15 milliarder til en verdsettelse på $100–110 milliarder mens det opererer til minimal kostnad for Alphabet-aksjonærene. CEO Pichai kalte Waymo 'meningsfull i våre finanser' innen 2027–28. Denne opsjonen er praktisk talt upriset i gjeldende multipler.">Waymo is seeking to raise $15B at a $100–110B valuation while operating at minimal cost to Alphabet shareholders. CEO Pichai called Waymo 'meaningful in our financials' by 2027-28. This optionality is essentially unpriced in current multiples.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-title" data-en="Pillar V — Capital return is massive" data-no="Søyle V — Kapitalretur er massiv">Pillar V — Capital return is massive</div>
+      <p data-en="Alphabet has a net cash position of ~$95B and bought back ~$70B of stock in 2025. The board declared a 5% dividend increase in Q1 2025. At current prices, the combined buyback yield exceeds 5% annually — extraordinary for a company growing revenue at 15–18%." data-no="Alphabet har en netto kontantposisjon på ~$95 milliarder og kjøpte tilbake ~$70 milliarder aksjer i 2025. Styret erklærte 5% utbytteøkning i Q1 2025. Til gjeldende kurser overstiger den kombinerte tilbakekjøpsavkastningen 5% årlig — ekstraordinært for et selskap som vokser inntekter med 15–18%.">Alphabet has a net cash position of ~$95B and bought back ~$70B of stock in 2025. The board declared a 5% dividend increase in Q1 2025. At current prices, the combined buyback yield exceeds 5% annually — extraordinary for a company growing revenue at 15–18%.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-title" data-en="Pillar VI — AI is a tailwind, not a headwind" data-no="Søyle VI — KI er medvind, ikke motvind">Pillar VI — AI is a tailwind, not a headwind</div>
+      <p data-en="Gemini AI has 750M+ monthly active users. AI Overviews has increased search engagement. Apple has signed a deal to lease Google data centers for Siri AI — a direct validation of Google's AI infrastructure quality. The narrative of AI destroying Google is empirically wrong." data-no="Gemini KI har 750 millioner+ månedlige aktive brukere. AI Overviews har økt søkeengasjementet. Apple har signert en avtale om å lease Googles datasentre for Siri KI — en direkte validering av Googles KI-infrastrukturkvalitet. Narrativet om at KI ødelegger Google er empirisk feil.">Gemini AI has 750M+ monthly active users. AI Overviews has increased search engagement. Apple has signed a deal to lease Google data centers for Siri AI — a direct validation of Google's AI infrastructure quality. The narrative of AI destroying Google is empirically wrong.</p>
+    </div>
+  </div>
+
+  <div class="kpi-strip">
+    <div class="kpi-card">
+      <div class="kpi-label" data-en="FY25 Revenue" data-no="FY25 Inntekter">FY25 Revenue</div>
+      <div class="kpi-value">$402B</div>
+      <div class="kpi-sub">+15% YoY</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label" data-en="Cloud Growth Q4" data-no="Sky-vekst Q4">Cloud Growth Q4</div>
+      <div class="kpi-value positive">+48%</div>
+      <div class="kpi-sub" data-en="YoY Q4 2025" data-no="ÅoÅ Q4 2025">YoY Q4 2025</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label" data-en="Forward P/E" data-no="Fremtidig P/E">Forward P/E</div>
+      <div class="kpi-value positive">28x</div>
+      <div class="kpi-sub" data-en="FY26E — below S&P 500" data-no="FY26E — under S&P 500">FY26E — below S&P 500</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label" data-en="Cloud Backlog" data-no="Sky-ordrebok">Cloud Backlog</div>
+      <div class="kpi-value">$240B</div>
+      <div class="kpi-sub">+2x YoY</div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 COMPANY OVERVIEW -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <div class="section-title" data-en="Company Overview" data-no="Selskapsoversikt">Company Overview</div>
+  </div>
+
+  <p data-en="Alphabet Inc. was formed in 2015 as the holding company for Google and its various subsidiaries. Headquartered in Mountain View, California, Alphabet operates through three reporting segments: Google Services, Google Cloud, and Other Bets. The company is listed on Nasdaq under the tickers GOOGL (Class A, with voting rights) and GOOG (Class C, no voting rights). Co-founders Larry Page and Sergey Brin retain supermajority voting control through Class B shares." data-no="Alphabet Inc. ble dannet i 2015 som holdingselskap for Google og dets ulike datterselskaper. Selskapet har hovedkontor i Mountain View, California og opererer gjennom tre rapporteringssegmenter: Google Services, Google Cloud og Other Bets. Selskapet er notert på Nasdaq under tickerne GOOGL (Klasse A, med stemmerett) og GOOG (Klasse C, ingen stemmerett). Medgründerne Larry Page og Sergey Brin beholder supermajoritets stemmerettskontroll gjennom Klasse B-aksjer.">Alphabet Inc. was formed in 2015 as the holding company for Google and its various subsidiaries. Headquartered in Mountain View, California, Alphabet operates through three reporting segments: Google Services, Google Cloud, and Other Bets. The company is listed on Nasdaq under the tickers GOOGL (Class A, with voting rights) and GOOG (Class C, no voting rights). Co-founders Larry Page and Sergey Brin retain supermajority voting control through Class B shares.</p>
+
+  <p data-en="Google Services — the core business — generated $346B of the $402B in FY25 revenue and includes Search & other (the advertising monopoly), YouTube ads and subscriptions, Android, Chrome, Google Play, and Google One cloud storage subscriptions (now 270M+ paid subscribers). This segment operates at a ~42% operating margin, generating extraordinary free cash flow." data-no="Google Services — kjernevirksomheten — genererte $346 milliarder av $402 milliarder i FY25-inntekter og inkluderer Søk og annet (reklamemonopolet), YouTube-annonser og abonnementer, Android, Chrome, Google Play og Google One skylagringsabonnementer (nå 270 millioner+ betalende abonnenter). Dette segmentet opererer med ~42% driftsmargin og genererer ekstraordinær fri kontantstrøm.">Google Services — the core business — generated $346B of the $402B in FY25 revenue and includes Search & other (the advertising monopoly), YouTube ads and subscriptions, Android, Chrome, Google Play, and Google One cloud storage subscriptions (now 270M+ paid subscribers). This segment operates at a ~42% operating margin, generating extraordinary free cash flow.</p>
+
+  <p data-en="Google Cloud is the growth engine, contributing approximately $54B in FY25 revenue (growing at 40%+ annualised). It encompasses Google Cloud Platform (GCP) infrastructure, enterprise AI solutions, and Workspace (formerly G Suite). The segment reached a 30%+ operating margin in Q4 2025, having been loss-making as recently as 2022. Other Bets includes Waymo (autonomous vehicles), DeepMind, and other long-duration bets." data-no="Google Cloud er vekstmotoren, med omtrent $54 milliarder i FY25-inntekter (vokser med 40%+ annualisert). Det omfatter Google Cloud Platform (GCP)-infrastruktur, enterprise KI-løsninger og Workspace (tidligere G Suite). Segmentet nådde 30%+ driftsmargin i Q4 2025, etter å ha gått med underskudd så sent som i 2022. Other Bets inkluderer Waymo (autonome kjøretøy), DeepMind og andre langsiktige satsinger.">Google Cloud is the growth engine, contributing approximately $54B in FY25 revenue (growing at 40%+ annualised). It encompasses Google Cloud Platform (GCP) infrastructure, enterprise AI solutions, and Workspace (formerly G Suite). The segment reached a 30%+ operating margin in Q4 2025, having been loss-making as recently as 2022. Other Bets includes Waymo (autonomous vehicles), DeepMind, and other long-duration bets.</p>
+</section>
+
+<!-- 03 INDUSTRY ANALYSIS -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">03</div>
+    <div class="section-title" data-en="Industry Analysis" data-no="Bransjeanalyse">Industry Analysis</div>
+  </div>
+
+  <p data-en="Alphabet operates across three of the most structurally attractive markets in the global economy: digital advertising (~$750B TAM growing at 10%+ annually), cloud infrastructure (~$600B TAM growing at 20%+ annually), and AI services (TAM currently undefined but likely the largest long-term opportunity in technology). The company's unique position is that it is simultaneously a beneficiary of, and a key infrastructure provider for, the AI revolution." data-no="Alphabet opererer i tre av de mest strukturelt attraktive markedene i global økonomi: digital reklame (~$750 milliarder TAM som vokser med 10%+ årlig), skyinfrastruktur (~$600 milliarder TAM som vokser med 20%+ årlig) og KI-tjenester (TAM for øyeblikket udefinert, men sannsynligvis den største langsiktige muligheten innen teknologi). Selskapets unike posisjon er at det samtidig er en mottaker av, og en nøkkelinfrastrukturleverandør for, KI-revolusjonen.">Alphabet operates across three of the most structurally attractive markets in the global economy: digital advertising (~$750B TAM growing at 10%+ annually), cloud infrastructure (~$600B TAM growing at 20%+ annually), and AI services (TAM currently undefined but likely the largest long-term opportunity in technology). The company's unique position is that it is simultaneously a beneficiary of, and a key infrastructure provider for, the AI revolution.</p>
+
+  <p data-en="The dominant investor concern — that AI-native search (ChatGPT, Perplexity) will erode Google's search advertising revenue — is empirically unsupported after three years of evidence. Google's search market share has remained above 89% globally. More importantly, AI Overviews has materially increased user engagement rather than reducing it. Search revenue grew 17% in Q4 2025. The fear is real; the revenue impact is not." data-no="Den dominerende investorbekymringen — at KI-nativt søk (ChatGPT, Perplexity) vil erodere Googles søkeannonseringsinntekter — er empirisk uunderbygget etter tre år med evidens. Googles søkemarkedsandel har holdt seg over 89% globalt. Enda viktigere, AI Overviews har materielt økt brukerengasjementet fremfor å redusere det. Søkeinntekter vokste 17% i Q4 2025. Frykten er reell; inntektseffekten er det ikke.">The dominant investor concern — that AI-native search (ChatGPT, Perplexity) will erode Google's search advertising revenue — is empirically unsupported after three years of evidence. Google's search market share has remained above 89% globally. More importantly, AI Overviews has materially increased user engagement rather than reducing it. Search revenue grew 17% in Q4 2025. The fear is real; the revenue impact is not.</p>
+
+  <p data-en="In cloud, Alphabet competes with AWS (Amazon) and Azure (Microsoft). Google Cloud is the fastest-growing of the three hyperscalers at 48% YoY in Q4 2025, versus AWS at approximately 19% and Azure at approximately 31%. Google's AI-infrastructure differentiation — built on TPUs (Tensor Processing Units) developed internally — has become a genuine competitive moat in the enterprise AI workload market, where demand significantly exceeds supply." data-no="I sky konkurrerer Alphabet med AWS (Amazon) og Azure (Microsoft). Google Cloud er den raskest voksende av de tre hyperskalerne med 48% ÅoÅ i Q4 2025, mot AWS på omtrent 19% og Azure på omtrent 31%. Googles KI-infrastrukturdifferensiering — bygget på TPU-er (Tensor Processing Units) utviklet internt — har blitt en ekte konkurransemessig vollgrav i enterprise KI-arbeidsbelastningsmarkedet, der etterspørselen betydelig overstiger tilbudet.">In cloud, Alphabet competes with AWS (Amazon) and Azure (Microsoft). Google Cloud is the fastest-growing of the three hyperscalers at 48% YoY in Q4 2025, versus AWS at approximately 19% and Azure at approximately 31%. Google's AI-infrastructure differentiation — built on TPUs (Tensor Processing Units) developed internally — has become a genuine competitive moat in the enterprise AI workload market, where demand significantly exceeds supply.</p>
+</section>
+
+<!-- 04 GROWTH DRIVERS -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">04</div>
+    <div class="section-title" data-en="Growth Drivers" data-no="Vekstdrivere">Growth Drivers</div>
+  </div>
+
+  <p data-en="Google Cloud backlog conversion is the most visible near-term driver. The $240B customer backlog — up 2x year-over-year — represents contracted revenue at an average conversion period of 12–24 months. If Cloud grows 45–50% in 2026 (reaching ~$75–80B), it will contribute roughly 15% of Alphabet's total revenue at a 30%+ operating margin, significantly lifting consolidated profitability and driving EPS above current consensus estimates." data-no="Google Cloud ordrebok-konvertering er den mest synlige nærtermsdriveren. $240 milliarder i kundeordrebok — opp 2x år-over-år — representerer kontrakterte inntekter med en gjennomsnittlig konverteringsperiode på 12–24 måneder. Dersom Cloud vokser 45–50% i 2026 (og når ~$75–80 milliarder), vil det bidra med omtrent 15% av Alphabets totale inntekter til en driftsmargin på 30%+, noe som markant løfter konsolidert lønnsomhet og driver EPS over gjeldende konsensusestimater.">Google Cloud backlog conversion is the most visible near-term driver. The $240B customer backlog — up 2x year-over-year — represents contracted revenue at an average conversion period of 12–24 months. If Cloud grows 45–50% in 2026 (reaching ~$75–80B), it will contribute roughly 15% of Alphabet's total revenue at a 30%+ operating margin, significantly lifting consolidated profitability and driving EPS above current consensus estimates.</p>
+
+  <p data-en="YouTube's subscription business is an underappreciated structural growth driver. YouTube TV, YouTube Premium, and YouTube Music now contribute meaningfully to the $60B+ YouTube revenue base. The platform surpassed Netflix in US watch time in 2025 — and unlike Netflix, YouTube generates the majority of its content for free through its creator economy. The subscription layer represents high-margin, low-churn recurring revenue with significant expansion runway internationally." data-no="YouTubes abonnementsvirksomhet er en undervurdert strukturell vekstdriver. YouTube TV, YouTube Premium og YouTube Music bidrar nå meningsfullt til $60 milliarder+ YouTube-inntektsbasen. Plattformen overgikk Netflix i amerikanske seertid i 2025 — og i motsetning til Netflix genererer YouTube majoriteten av innholdet sitt gratis gjennom skaperøkonomien. Abonnementslaget representerer høymarginal, lavt frafall, gjentakende inntekter med betydelig ekspansjonsrom internasjonalt.">YouTube's subscription business is an underappreciated structural growth driver. YouTube TV, YouTube Premium, and YouTube Music now contribute meaningfully to the $60B+ YouTube revenue base. The platform surpassed Netflix in US watch time in 2025 — and unlike Netflix, YouTube generates the majority of its content for free through its creator economy. The subscription layer represents high-margin, low-churn recurring revenue with significant expansion runway internationally.</p>
+
+  <p data-en="Waymo represents the largest optionality in the Alphabet portfolio. At a $100–110B valuation in its latest financing round and targeting 1M weekly rides by late 2026 at a $20 average fare, Waymo is on the cusp of generating $1B+ in annualised revenue. This is tiny relative to Alphabet's scale today — but Waymo is potentially the most valuable autonomous vehicle franchise globally, and it is carried at essentially zero value in Alphabet's current stock price." data-no="Waymo representerer den største opsjonen i Alphabet-porteføljen. Med en verdsettelse på $100–110 milliarder i siste finansieringsrunde og mål om 1 million ukentlige turer innen utgangen av 2026 til $20 gjennomsnittspris, er Waymo i ferd med å generere $1 milliard+ i annualisert inntekt. Dette er lite relativt til Alphabets skala i dag — men Waymo er potensielt det mest verdifulle autonome kjøretøy-franchise globalt, og det føres til praktisk talt nullverdi i Alphabets gjeldende aksjekurs.">Waymo represents the largest optionality in the Alphabet portfolio. At a $100–110B valuation in its latest financing round and targeting 1M weekly rides by late 2026 at a $20 average fare, Waymo is on the cusp of generating $1B+ in annualised revenue. This is tiny relative to Alphabet's scale today — but Waymo is potentially the most valuable autonomous vehicle franchise globally, and it is carried at essentially zero value in Alphabet's current stock price.</p>
+</section>
+
+<!-- 05 FINANCIAL PERFORMANCE -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">05</div>
+    <div class="section-title" data-en="Financial Performance" data-no="Finansiell Utvikling">Financial Performance</div>
+  </div>
+
+  <p data-en="Alphabet's FY2025 results were exceptional across the board. Q4 2025 revenue came in at $113.8B (+18% YoY), beating consensus estimates. Full-year 2025 revenue is estimated at approximately $402B (+15% YoY). The company faces one genuine near-term headwind: capital expenditure compression of free cash flow. Alphabet guided $175–185B in CapEx for 2026, nearly double 2025's ~$93B, as it builds AI infrastructure to capture the $240B cloud backlog." data-no="Alphabets FY2025-resultater var eksepsjonelle på alle fronter. Q4 2025 inntekter endte på $113,8 milliarder (+18% ÅoÅ), og slo konsensusestimater. Totale 2025-inntekter estimeres til omtrent $402 milliarder (+15% ÅoÅ). Selskapet møter en reell nærtermsmotbakke: kapitalutgifter komprimerer fri kontantstrøm. Alphabet guidet $175–185 milliarder i kapitalutgifter for 2026, nesten dobbelt av 2025s ~$93 milliarder, ettersom det bygger KI-infrastruktur for å fange $240 milliarder i skyordrebok.">Alphabet's FY2025 results were exceptional across the board. Q4 2025 revenue came in at $113.8B (+18% YoY), beating consensus estimates. Full-year 2025 revenue is estimated at approximately $402B (+15% YoY). The company faces one genuine near-term headwind: capital expenditure compression of free cash flow. Alphabet guided $175–185B in CapEx for 2026, nearly double 2025's ~$93B, as it builds AI infrastructure to capture the $240B cloud backlog.</p>
+
+  <div class="info-box">
+    <p data-en="The CapEx surge is the primary bear argument for 2026. FCF is expected to decline year-over-year as depreciation catches up with infrastructure spend. This is a temporary earnings headwind — not a structural margin deterioration. The infrastructure being built today will generate Cloud revenue through 2028–2031, with operating margins expanding as the fixed-cost base is absorbed." data-no="Kapitalutgiftssurgen er det primære bjørneargumentet for 2026. FCF forventes å falle år-over-år etter hvert som avskrivninger tar igjen infrastrukturbruk. Dette er en midlertidig inntjeningsmotvind — ikke en strukturell marginforverring. Infrastrukturen som bygges i dag vil generere Cloud-inntekter gjennom 2028–2031, med ekspanderende driftsmarginer etter hvert som den faste kostnadsbasis absorberes.">The CapEx surge is the primary bear argument for 2026. FCF is expected to decline year-over-year as depreciation catches up with infrastructure spend. This is a temporary earnings headwind — not a structural margin deterioration. The infrastructure being built today will generate Cloud revenue through 2028–2031, with operating margins expanding as the fixed-cost base is absorbed.</p>
+  </div>
+
+  <table class="fin-table">
+    <thead>
+      <tr>
+        <th data-en="USD billions" data-no="USD milliarder">USD billions</th>
+        <th>FY22</th>
+        <th>FY23</th>
+        <th>FY24</th>
+        <th>FY25E</th>
+        <th>FY26E</th>
+        <th>FY27E</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-en="Revenue" data-no="Inntekter">Revenue</td>
+        <td>283</td><td>308</td><td>350</td><td>402</td><td>455E</td><td>510E</td>
+      </tr>
+      <tr>
+        <td data-en="YoY Growth" data-no="ÅoÅ vekst">YoY Growth</td>
+        <td>+10%</td><td>+9%</td><td>+14%</td><td>+15%</td><td>+13%E</td><td>+12%E</td>
+      </tr>
+      <tr>
+        <td data-en="Operating Income" data-no="Driftsresultat">Operating Income</td>
+        <td>75</td><td>84</td><td>112</td><td>127</td><td>138E</td><td>168E</td>
+      </tr>
+      <tr class="highlight">
+        <td data-en="Operating Margin" data-no="Driftsmargin">Operating Margin</td>
+        <td>26%</td><td>27%</td><td>32%</td><td>31.6%</td><td>~30%E</td><td>~33%E</td>
+      </tr>
+      <tr>
+        <td data-en="Net Income" data-no="Nettoresultat">Net Income</td>
+        <td>60</td><td>74</td><td>101</td><td>~130E</td><td>~132E</td><td>~165E</td>
+      </tr>
+      <tr class="warn">
+        <td data-en="Free Cash Flow" data-no="Fri kontantstrøm">Free Cash Flow</td>
+        <td>60</td><td>69</td><td>73</td><td>~55E</td><td>~30E</td><td>~80E</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="table-note" data-en="Source: Alphabet SEC filings, Q4 2025 earnings release, analyst estimates for FY25E–FY27E. FCF decline in FY26E reflects CapEx guidance of $175–185B." data-no="Kilde: Alphabets SEC-innleveringer, Q4 2025 inntektsrapport, analytikernes estimater for FY25E–FY27E. FCF-nedgang i FY26E reflekterer kapitalutgiftsguidance på $175–185 milliarder.">Source: Alphabet SEC filings, Q4 2025 earnings release, analyst estimates for FY25E–FY27E. FCF decline in FY26E reflects CapEx guidance of $175–185B.</div>
+</section>
+
+<!-- 06 VALUATION -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">06</div>
+    <div class="section-title" data-en="Valuation" data-no="Verdsettelse">Valuation</div>
+  </div>
+
+  <p data-en="At USD 301, Alphabet trades at approximately 28x FY26E earnings and 23x FY27E earnings — a significant discount to its five-year average P/E of approximately 25–30x, and at or below the S&P 500's forward P/E. The 60-analyst consensus has zero sell ratings and an average 12-month price target of USD 377, implying 25% upside from consensus alone. Our target of USD 400 is modestly above consensus, reflecting higher Cloud growth assumptions and partial Waymo optionality." data-no="Til USD 301 handles Alphabet til omtrent 28x FY26E inntjening og 23x FY27E inntjening — en betydelig rabatt til femårsgjennomsnittet P/E på omtrent 25–30x, og på eller under S&P 500s fremtidige P/E. De 60-analytiker-konsensus har null salgsvurderinger og et gjennomsnittlig 12-månederskursmål på USD 377, noe som innebærer 25% oppside fra konsensus alene. Vårt mål på USD 400 er beskjedent over konsensus, og reflekterer høyere vekstforutsetninger for Cloud og delvis Waymo-opsjon.">At USD 301, Alphabet trades at approximately 28x FY26E earnings and 23x FY27E earnings — a significant discount to its five-year average P/E of approximately 25–30x, and at or below the S&P 500's forward P/E. The 60-analyst consensus has zero sell ratings and an average 12-month price target of USD 377, implying 25% upside from consensus alone. Our target of USD 400 is modestly above consensus, reflecting higher Cloud growth assumptions and partial Waymo optionality.</p>
+
+  <table class="val-table">
+    <thead>
+      <tr>
+        <th data-en="Company" data-no="Selskap">Company</th>
+        <th data-en="FY26E P/E" data-no="FY26E P/E">FY26E P/E</th>
+        <th data-en="EV/EBITDA" data-no="EV/EBITDA">EV/EBITDA</th>
+        <th data-en="Rev. Growth" data-no="Innt.vekst">Rev. Growth</th>
+        <th data-en="Op. Margin" data-no="Driftsmargin">Op. Margin</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="subject-row">
+        <td>Alphabet (GOOGL)</td>
+        <td>28x</td><td>~16x</td><td>+13%</td><td>~30%</td>
+      </tr>
+      <tr>
+        <td>Microsoft (MSFT)</td>
+        <td>~30x</td><td>~21x</td><td>+14%</td><td>~45%</td>
+      </tr>
+      <tr>
+        <td>Meta (META)</td>
+        <td>~22x</td><td>~14x</td><td>+16%</td><td>~43%</td>
+      </tr>
+      <tr>
+        <td>Amazon (AMZN)</td>
+        <td>~35x</td><td>~18x</td><td>+11%</td><td>~11%</td>
+      </tr>
+      <tr>
+        <td data-en="Mega-cap tech median" data-no="Mega-cap tech median">Mega-cap tech median</td>
+        <td>~30x</td><td>~18x</td><td>—</td><td>—</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="table-note" data-en="Source: Bloomberg consensus estimates. Alphabet trades at a discount to mega-cap tech peers despite faster Cloud growth than AWS or Azure." data-no="Kilde: Bloomberg konsensusestimater. Alphabet handles med rabatt til mega-cap tech-konkurrenter til tross for raskere Cloud-vekst enn AWS eller Azure.">Source: Bloomberg consensus estimates. Alphabet trades at a discount to mega-cap tech peers despite faster Cloud growth than AWS or Azure.</div>
+
+  <p style="margin-top:16px;" data-en="Sum-of-the-parts analysis is particularly illuminating for Alphabet. Search & advertising at 22x FY27E EBIT implies ~$2.5T. Cloud at 15x FY27E revenue implies ~$1.1T. YouTube as a standalone at 6x revenue implies ~$420B. Net cash adds ~$95B. Waymo at current fundraising valuation adds ~$100B. Sum: ~$4.2T vs. current market cap of ~$3.6T — implying 17% upside from SOTP alone, before any growth premium." data-no="Sum-of-the-parts analyse er særlig belysende for Alphabet. Søk og reklame til 22x FY27E EBIT impliserer ~$2,5 billioner. Cloud til 15x FY27E inntekter impliserer ~$1,1 billioner. YouTube som frittstående til 6x inntekter impliserer ~$420 milliarder. Netto kontanter legger til ~$95 milliarder. Waymo til gjeldende innsamlingsverdsettelse legger til ~$100 milliarder. Sum: ~$4,2 billioner vs. gjeldende markedsverdi på ~$3,6 billioner — noe som innebærer 17% oppside fra SOTP alene, uten noe vekstpremium.">Sum-of-the-parts analysis is particularly illuminating for Alphabet. Search & advertising at 22x FY27E EBIT implies ~$2.5T. Cloud at 15x FY27E revenue implies ~$1.1T. YouTube as a standalone at 6x revenue implies ~$420B. Net cash adds ~$95B. Waymo at current fundraising valuation adds ~$100B. Sum: ~$4.2T vs. current market cap of ~$3.6T — implying 17% upside from SOTP alone, before any growth premium.</p>
+</section>
+
+<!-- 07 RISKS -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">07</div>
+    <div class="section-title" data-en="Key Risks" data-no="Sentrale risikoer">Key Risks</div>
+  </div>
+  <div class="rc-grid">
+    <div class="rc-item risk">
+      <div class="rc-item-title" data-en="Antitrust / Forced Divestiture" data-no="Antitrust / Tvungen frasalg">Antitrust / Forced Divestiture</div>
+      <p data-en="US and EU regulators have found Google guilty of maintaining illegal search and ad-tech monopolies. Remedies could include forced default-search contract bans (e.g. losing Apple), advertising business separation, or in extreme scenarios, structural breakup. This is the most severe tail risk." data-no="Amerikanske og europeiske regulatorer har funnet Google skyldig i å opprettholde ulovlige søke- og annonse-tech-monopoler. Tiltak kan inkludere tvungne forbud mot standard-søkkontrakter (f.eks. tap av Apple), annonseverkseparasjon eller i ekstreme scenarier strukturell oppdeling.">US and EU regulators have found Google guilty of maintaining illegal search and ad-tech monopolies. Remedies could include forced default-search contract bans, advertising business separation, or structural breakup. This is the most severe tail risk.</p>
+    </div>
+    <div class="rc-item risk">
+      <div class="rc-item-title" data-en="CapEx Overspend / AI Demand Miss" data-no="Kapitalutgifter over budsjett / KI-etterspørsel miss">CapEx Overspend / AI Demand Miss</div>
+      <p data-en="Alphabet is committing $175–185B in 2026 CapEx on the assumption that AI demand will fill the capacity. If AI enterprise adoption slows or AWS/Azure capture most of the growth, Google could be left with costly underutilised infrastructure, compressing FCF for years." data-no="Alphabet forplikter $175–185 milliarder i kapitalutgifter for 2026 under forutsetning av at KI-etterspørselen vil fylle kapasiteten. Dersom KI-enterprise-adopsjon bremser eller AWS/Azure tar det meste av veksten, kan Google sitte igjen med kostbar underutnyttet infrastruktur.">Alphabet is committing $175–185B in 2026 CapEx assuming AI demand will fill the capacity. If AI enterprise adoption slows, Google could be left with costly underutilised infrastructure, compressing FCF for years.</p>
+    </div>
+    <div class="rc-item risk">
+      <div class="rc-item-title" data-en="Search Disruption Acceleration" data-no="Søkeforstyrrelsesakselerasjon">Search Disruption Acceleration</div>
+      <p data-en="Despite three years of resilience, the search disruption narrative is not dead — it is deferred. A step-change improvement in AI search quality from OpenAI, Perplexity, or Apple Intelligence could accelerate advertiser and user switching. This risk grows over a 3–5 year horizon." data-no="Til tross for tre år med motstandsdyktighet er søkeforstyrrelsesnarativet ikke dødt — det er utsatt. En trinnvis forbedring i KI-søkkvalitet fra OpenAI, Perplexity eller Apple Intelligence kan akselerere annonse- og brukerbytte. Denne risikoen vokser over en 3–5 års horisont.">Despite three years of resilience, search disruption risk is deferred, not eliminated. A step-change improvement from OpenAI, Perplexity, or Apple Intelligence could accelerate switching. This risk grows over a 3–5 year horizon.</p>
+    </div>
+    <div class="rc-item risk">
+      <div class="rc-item-title" data-en="Macro / Ad Cycle Downturn" data-no="Makro / Annonse-syklus nedgang">Macro / Ad Cycle Downturn</div>
+      <p data-en="~56% of Alphabet's revenue is still advertising. A global recession or significant reduction in advertiser budgets would directly impact Search and YouTube revenue. The company's revenue is more cyclical than its quality franchise would suggest, as demonstrated in 2022." data-no="~56% av Alphabets inntekter er fortsatt reklame. En global resesjon eller betydelig reduksjon i annonsørbudsjetter vil direkte påvirke Søk og YouTube-inntekter. Selskapets inntekter er mer sykliske enn franchisets kvalitet tilsier, som vist i 2022.">~56% of Alphabet's revenue is still advertising. A recession would directly impact Search and YouTube revenue. The company's revenue is more cyclical than its franchise quality suggests, as demonstrated in 2022.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 08 CATALYSTS -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">08</div>
+    <div class="section-title" data-en="Near-Term Catalysts" data-no="Kortsiktige katalysatorer">Near-Term Catalysts</div>
+  </div>
+  <div class="rc-grid">
+    <div class="rc-item catalyst">
+      <div class="rc-item-title" data-en="Q1 2026 Cloud Beat" data-no="Q1 2026 Cloud-beat">Q1 2026 Cloud Beat</div>
+      <p data-en="Q1 2026 earnings (due April 2026) — if Google Cloud sustains 45%+ growth versus the ~35% consensus expectation, it would trigger significant upward EPS revisions and a multiple re-rating. This is the single most important near-term catalyst." data-no="Q1 2026 inntekter (forfaller april 2026) — dersom Google Cloud opprettholder 45%+ vekst mot ~35% konsensusforventning, vil det utløse betydelige oppadgående EPS-revisjoner og en multippel re-rating.">If Google Cloud sustains 45%+ growth vs. ~35% consensus in Q1 2026, it would trigger significant upward EPS revisions and a multiple re-rating. This is the single most important near-term catalyst.</p>
+    </div>
+    <div class="rc-item catalyst">
+      <div class="rc-item-title" data-en="Waymo Financing / Spin-off Announcement" data-no="Waymo finansiering / utskillelse-kunngjøring">Waymo Financing / Spin-off Announcement</div>
+      <p data-en="The $15B Waymo fundraising round (at $100–110B valuation) would force the market to recognise Waymo's value within Alphabet's market cap. Any spin-off announcement would unlock additional multiple expansion." data-no="$15 milliarder Waymo finansieringsrunde (til $100–110 milliarder verdsettelse) vil tvinge markedet til å anerkjenne Waymos verdi innenfor Alphabets markedsverdi. Enhver utskillelse-kunngjøring ville låse opp ytterligere multippelekspansjon.">The $15B Waymo fundraising round at $100–110B valuation would force the market to recognise Waymo's value. Any spin-off announcement would unlock additional multiple expansion.</p>
+    </div>
+    <div class="rc-item catalyst">
+      <div class="rc-item-title" data-en="Apple AI Partnership Expansion" data-no="Apple KI-partnerskapsutvidelse">Apple AI Partnership Expansion</div>
+      <p data-en="Apple has already signed a deal to lease Google data centers for Siri AI. Further expansion of this partnership — or integration of Google's Gemini models into Apple Intelligence — would validate Google's AI infrastructure quality and generate incremental high-margin Cloud revenue." data-no="Apple har allerede signert en avtale om å lease Googles datasentre for Siri KI. Ytterligere utvidelse av dette partnerskapet ville validere Googles KI-infrastrukturkvalitet og generere inkrementelle høymarginals Cloud-inntekter.">Apple already leases Google data centers for Siri AI. Further expansion of this partnership would validate Google's AI infrastructure and generate incremental high-margin Cloud revenue.</p>
+    </div>
+    <div class="rc-item catalyst">
+      <div class="rc-item-title" data-en="Antitrust Resolution" data-no="Antitrust-løsning">Antitrust Resolution</div>
+      <p data-en="Markets have heavily discounted Alphabet due to regulatory uncertainty. A lighter-than-expected antitrust remedy — particularly avoiding forced divestiture of the advertising business — would remove a significant overhang and drive a re-rating toward the intrinsic value implied by SOTP." data-no="Markedene har diskontert Alphabet kraftig på grunn av regulatorisk usikkerhet. En lettere enn forventet antitrust-løsning — særlig unngåelse av tvunget frasalg av annonsevirksomheten — ville fjerne et betydelig overheng og drive en re-rating mot egenverdi.">A lighter-than-expected antitrust remedy — particularly avoiding forced divestiture — would remove a significant overhang and drive a re-rating toward intrinsic value.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 09 CONCLUSION -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">09</div>
+    <div class="section-title" data-en="Conclusion" data-no="Konklusjon">Conclusion</div>
+  </div>
+
+  <p data-en="Alphabet is the world's most undervalued mega-cap technology company. The market is pricing in a slow, steady decline in search dominance that three years of evidence has not delivered. Meanwhile, Google Cloud is growing at 48% — faster than AWS or Azure — with a $240B backlog that guarantees multi-year revenue acceleration. YouTube is the world's largest video platform by watch time. Waymo is a free option worth potentially $100–110B alone." data-no="Alphabet er verdens mest undervurderte mega-cap teknologiselskap. Markedet priser inn en langsom, jevn nedgang i søkedominansen som tre år med evidens ikke har levert. Samtidig vokser Google Cloud med 48% — raskere enn AWS eller Azure — med en $240 milliarder ordrebok som garanterer flerårig inntektsakselerasjon. YouTube er verdens største videoplattform etter seertid. Waymo er en gratis opsjon potensielt verdt $100–110 milliarder alene.">Alphabet is the world's most undervalued mega-cap technology company. The market is pricing in a slow, steady decline in search dominance that three years of evidence has not delivered. Meanwhile, Google Cloud is growing at 48% — faster than AWS or Azure — with a $240B backlog that guarantees multi-year revenue acceleration. YouTube is the world's largest video platform by watch time. Waymo is a free option worth potentially $100–110B alone.</p>
+
+  <p data-en="The legitimate bear case — CapEx-driven FCF compression in 2026 and antitrust regulatory risk — is real but temporary and binary respectively. FCF will recover in 2027–2028 as infrastructure depreciation stabilises. Antitrust outcomes are discounting a forced breakup scenario that would likely be challenged for years and ultimately result in a higher aggregate value for shareholders." data-no="Det legitime bjørnesaken — CapEx-drevet FCF-kompresjon i 2026 og antitrust-regulatorisk risiko — er reell men midlertidig og binær henholdsvis. FCF vil gjenopprette i 2027–2028 ettersom infrastrukturavskrivningene stabiliseres. Antitrust-utfall diskonterer et tvungent oppdeling-scenario som sannsynligvis vil bli utfordret i årevis.">The legitimate bear case — CapEx-driven FCF compression in 2026 and antitrust regulatory risk — is real but temporary and binary respectively. FCF will recover in 2027–2028 as infrastructure depreciation stabilises.</p>
+
+  <p data-en="We initiate coverage with a BUY rating and a USD 400 price target (33% upside). The 60-analyst consensus with zero sell ratings and a $377 average target confirms the fundamental quality. The gap between intrinsic value and current price reflects temporary fear — not permanent impairment." data-no="Vi initierer dekning med KJØP-anbefaling og kursmål USD 400 (33% oppside). 60-analytiker-konsensus med null salgsvurderinger og $377 gjennomsnittsmål bekrefter den fundamentale kvaliteten. Gapet mellom egenverdi og gjeldende kurs reflekterer midlertidig frykt — ikke permanent forringelse.">We initiate coverage with a BUY rating and a USD 400 price target (33% upside). The 60-analyst consensus with zero sell ratings and a $377 average target confirms the fundamental quality. The gap between intrinsic value and current price reflects temporary fear — not permanent impairment.</p>
+
+  <div class="highlight-box">
+    <p data-en="The core insight: Alphabet is not a newspaper company. It is a four-business conglomerate — each worth hundreds of billions individually — being priced as though AI will render search obsolete within 24 months. It won't. And when the market recognises this, the re-rating will be swift." data-no="Kjerneinnsikten: Alphabet er ikke et aviselskap. Det er et fire-virksomheters konglomerat — hver verdt hundrevis av milliarder individuelt — som prises som om KI vil gjøre søk foreldet innen 24 måneder. Det vil det ikke. Og når markedet erkjenner dette, vil re-ratingen være rask.">The core insight: Alphabet is not a newspaper company. It is a four-business conglomerate — each worth hundreds of billions individually — being priced as though AI will render search obsolete within 24 months. It won't. And when the market recognises this, the re-rating will be swift.</p>
+  </div>
+</section>
+
+<footer class="report-footer">
+  <div class="footer-top">
+    <div class="footer-bank">Kasper Nes Larsen — <span data-en="Equity Research" data-no="Aksjeanalyse">Equity Research</span> · kasperinvest.github.io</div>
+    <div>14 <span data-en="March" data-no="mars">March</span> 2026</div>
+  </div>
+  <p style="font-size:10.5px;color:var(--ink-muted);line-height:1.6;margin-bottom:0;" data-en="This document is for informational purposes only and directed at sophisticated investors. It does not constitute investment advice, an offer to buy or sell, or a solicitation. Financial projections marked 'E' are analyst estimates and may differ materially from actual outcomes. The author may hold positions in the discussed securities. Past performance is not a reliable indicator of future results. Key assumptions underlying the price target: (1) FY27E P/E re-rating to 25x; (2) Cloud revenue growth of 45%+ in FY26E; (3) No forced structural breakup from antitrust proceedings. All figures in USD unless stated. Readers should review Alphabet's full financial disclosures at abc.xyz/investor and exercise independent judgment." data-no="Dette dokumentet er utelukkende for informasjonsformål og rettet mot sofistikerte investorer. Det utgjør ikke investeringsrådgivning, et tilbud om å kjøpe eller selge, eller en oppfordring. Finansielle prognoser merket 'E' er analytikernes estimater og kan avvike vesentlig fra faktiske resultater. Forfatteren kan ha posisjoner i de diskuterte verdipapirene. Historisk avkastning er ikke en pålitelig indikator på fremtidige resultater. Kjerneforutsetninger for kursmålet: (1) FY27E P/E re-rating til 25x; (2) Cloud-inntektsvekst på 45%+ i FY26E; (3) Ingen tvungen strukturell oppdeling fra antitrust-prosesser. Alle tall i USD med mindre annet er oppgitt.">This document is for informational purposes only and directed at sophisticated investors. It does not constitute investment advice. Financial projections marked 'E' are analyst estimates and may differ materially from actual outcomes. Key assumptions: (1) FY27E P/E re-rating to 25x; (2) Cloud revenue growth 45%+ in FY26E; (3) No forced structural breakup from antitrust. All figures in USD unless stated.</p>
+</footer>
+
+<script>
+function setLang(lang) {
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.getElementById('btn-no').classList.toggle('active', lang === 'no');
+  document.querySelectorAll('[data-en]').forEach(function(el) {
+    var text = el.getAttribute('data-' + lang);
+    if (!text) return;
+    var enVal = el.getAttribute('data-en') || '';
+    if (enVal.indexOf('<') !== -1) {
+      el.innerHTML = text;
+    } else {
+      el.textContent = text;
+    }
+  });
+}
+</script>
+</body>
+</html>
